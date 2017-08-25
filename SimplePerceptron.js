@@ -1,4 +1,4 @@
-var points = new Array(100);
+var points = new Array(1000);
 var p;
 
 function setup() {
@@ -9,20 +9,27 @@ function setup() {
   }
   var inputs = [-1, 0.5];
   var guess = p.guess(inputs);
-  console.log(guess);
 }
 
 function draw() {
   background(255);
   stroke(0);
-  line(0,0,width, height);
+
+  // line(0, height, width, 0);
+  var p1 = new Point(-1, funcionCorte(-1));
+  var p2 = new Point(1, funcionCorte(1));
+  line(p1.pixelX(), p1.pixelY(), p2.pixelX(), p2.pixelY());
+
+  var p3 = new Point(-1, p.guessY(-1));
+  var p4 = new Point(1, p.guessY(1));
+  line(p3.pixelX(), p3.pixelY(), p4.pixelX(), p4.pixelY());
 
   for (pt of points) {
     pt.show();
   }
 
   for (pt of points) {
-    var inputs = [pt.x, pt.y];
+    var inputs = [pt.x, pt.y, pt.bias];
     var target = pt.label;
     // p.train(inputs, target);
 
@@ -33,13 +40,18 @@ function draw() {
       fill(255,0,0);
     }
     noStroke();
-    ellipse(pt.x, pt.y, 15,15);
+    ellipse(pt.pixelX(), pt.pixelY(), 5,5);
   }
+  trainThis();
 }
 
 function mousePressed() {
+
+}
+
+function trainThis() {
   for (pt of points) {
-    var inputs = [pt.x, pt.y];
+    var inputs = [pt.x, pt.y, pt.bias];
     var target = pt.label;
     p.train(inputs, target);
   }

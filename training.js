@@ -1,13 +1,33 @@
+function funcionCorte(x) {
+  // y = mx + b
+  return 0.89 * x - 0.12;
+}
+
 class Point {
   constructor() {
-    this.x = random(width);
-    this.y = random(height);
-
-    if (this.x > this.y) {
-      this.label = 1;
+    if (arguments.length === 2) {
+      this.x = arguments[0];
+      this.y = arguments[1];
     } else {
-      this.label = -1;
+      this.bias = 1;
+      this.x = random(-1,1);
+      this.y = random(-1,1);
+
+      this.lineY = funcionCorte(this.x);
+      if (this.y > this.lineY) {
+        this.label = 1;
+      } else {
+        this.label = -1;
+      }
     }
+  }
+
+  pixelX() {
+    return map(this.x, -1, 1, 0, width);
+  }
+
+  pixelY() {
+    return map(this.y, -1, 1, height, 0);
   }
 
   show() {
@@ -17,6 +37,10 @@ class Point {
     } else {
       fill (0);
     }
-    ellipse(this.x, this.y, 30, 30);
+
+    var px = this.pixelX();
+    var py = this.pixelY();
+
+    ellipse(px, py, 8, 8);
   }
 }

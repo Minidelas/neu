@@ -12,8 +12,8 @@ class Perceptron {
   //Constructor
   constructor() {
     //Inicializa los pesos
-    this.weights = new Array(2);
-    this.lr = 0.1;
+    this.weights = new Array(3);
+    this.lr = 0.00001;
     for (var i = 0; i < this.weights.length; i++) {
       this.weights[i] = random(-1, 1);
     }
@@ -25,6 +25,13 @@ class Perceptron {
       sum += this.weights[i] * inputs[i];
     }
     return sign(sum);
+  }
+
+  guessY(x) {
+    var w0 = this.weights[0]
+    var w1 = this.weights[1];
+    var w2 = this.weights[2]
+    return -(w2/w1) - (w0/w1) * x;
   }
 
   train(inputs, target){
